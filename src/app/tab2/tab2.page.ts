@@ -15,6 +15,7 @@ export class Tab2Page implements OnInit {
     public photos: Photo[] = [];
     @ViewChild('angularCropper')
     public angularCropper: CropperComponent;
+    clearImage: boolean;
 
     constructor(
         public photoService: PhotoService,
@@ -31,6 +32,7 @@ export class Tab2Page implements OnInit {
             autoCropArea: 1,
             cropBoxResizable: false
         };
+        this.clearImage = false;
     }
 
     takePicture() {
@@ -48,12 +50,32 @@ export class Tab2Page implements OnInit {
             });
 
             // Save all photos for later viewing
-            this.storage.set('photos', this.photos);
+            this.storage.set('photos', this.photos).then(r => console.log(r));
         }, (err) => {
             // Handle error
             console.log('Camera issue: ' + err);
         });
 
+    }
+
+    save() {
+        const index = this.photos.length;
+        this.photos[index] = this.angularCropper.cropper
+            .getCroppedCanvas()
+            .toDataURL('image/jpeg', 100 / 100);
+        this.clearImage = true;
+    }
+
+    reset() {
+        this.angularCropper.cropper.reset();
+    }
+
+    clear() {
+        this.photos = [];
+    }
+
+    rotate() {
+        this.angularCropper.cropper.rotate(90);
     }
 }
 
