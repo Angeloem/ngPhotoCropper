@@ -9,8 +9,8 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-    <ion-col col-6 *ngFor="let photo of photoService.photos">
-        <img [src]="photo.data" />
+    <ion-col size="6" *ngFor="let photo of photos">
+        <img [src]="photo.data"  alt="photo"/>
         </ion-col>
     </ion-row>
   </ion-grid>
@@ -19,8 +19,13 @@
     [cropperOptions]="cropperOptions"
   ></angular-cropper>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-      <ion-fab-button (click)="photoService.takePicture()">
+      <ion-fab-button (click)="takePicture()">
         <ion-icon name="camera"></ion-icon>
       </ion-fab-button>
   </ion-fab>
+    <ion-row>
+        <ion-button fill="clear" (click)="clear()">Clear</ion-button>
+        <ion-button fill="clear" (click)="save()">Save</ion-button>
+        <ion-button fill="clear" (click)="rotate()">Rotate</ion-button>
+    </ion-row>
 </ion-content>
